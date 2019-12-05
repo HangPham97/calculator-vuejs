@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Hello Vue</title>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app-2">
+	  <span v-bind:title="message">
+	    Rê chuột lên đây một vài giây để xem thuộc tính `title` được bind!
+	  </span>
+	</div>
+	<div id="app-3">
+	  <span v-if="seen">Thoắt ẩn thoắt hiện</span>
+	</div>
+	<div id="app-4">
+	  <ol>
+	    <li v-for="todo in todos">
+	      {{ todo.text }}
+	    </li>
+	  </ol>
+	</div>
+	<div id="app-5">
+	  <p>{{ message }}</p>
+	  <button v-on:click="reverseMessage">Reverse Message</button>
+	</div>
+
+	<div id="app-7">
+	  <p>Những thứ họ mua:</p>
+	  <ol>
+	    <!--
+	      Ở đây chúng ta cung cấp một object "todo" cho mỗi component
+	      "todo-item". Bằng cách này nội dung của từng component trở nên động.
+	      Mỗi component cũng sẽ nhận một thuộc tính "key". Chúng ta sẽ
+	      nói thêm về thuộc tính này sau.
+	    -->
+	    <todo-item
+	      v-for="item in groceryList"
+	      v-bind:todo="item"
+	      v-bind:key="item.id">
+	    </todo-item>
+	  </ol>
+	</div>
+
+	<div id="app">
+	  <p>{{ foo }}</p>
+	  <!-- foo sẽ không được cập nhật! -->
+	  <button @click="foo = 'baz'">Cập nhật đi chứ</button>
+	</div>
+
+	<div id="watch-example">
+  <p>
+    Hãy hỏi một câu hỏi yes/no:
+    <input v-model="question">
+  </p>
+  <p>{{ answer }}</p>
+</div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+<script>
+var watchExampleVM = new Vue({
+  el: '#watch-example',
+  data: {
+    question: '',
+    answer: 'Không thể trả lời nếu bạn chưa đặt câu hỏi!'
+  },
+  watch: {
+    // bất cứ lúc nào câu hỏi thay đổi, hàm bên dưới sẽ chạy
+    question: function (newQuestion, oldQuestion) {
+      this.answer = 'Đang chờ bạn đặt xong câu hỏi...'
+      this.getAnswer()
+    }
+  },
+  methods: {
+    // _.debounce là một hàm do Lodash cung cấp
+    // Để tìm hiểu rõ hơn cách hoạt động của hàm này,
+    // bạn có thể truy cập: https://lodash.com/docs#debounce 
+    getAnswer: _.debounce(
+      function () {
+        if (this.question.indexOf('?') === -1) {
+          this.answer = 'Câu hỏi thì thường chứa một dấu "?" ;-)'
+          return
+        }
+        this.answer = 'Đang suy nghĩ...'
+        var vm = this
+        axios.get('https://yesno.wtf/api')
+          .then(function (response) {
+            vm.answer = _.capitalize(response.data.answer)
+          })
+          .catch(function (error) {
+            vm.answer = 'Lỗi! Không thể truy cập API. ' + error
+          })
+      },
+      // Đây là thời gian (đơn vị mili giây) chúng ta đợi người dùng dừng gõ.
+      500
+    )
+  }
+})
+</script>
+	<script>
+
+
+		var app2 = new Vue({
+		  el: '#app-2',
+		  data: {
+		    message: 'Bạn đã mở trang này vào ' + new Date().toLocaleString()
+		  }
+		})
+		var app3 = new Vue({
+			el: '#app-3',
+			data: {
+				seen: false,
+			}
+		})
+
+		var app4 = new Vue({
+			el: '#app-4',
+			data: {
+				todos: [
+					{text: 'Học JavaScript'},	
+					{text: 'Học VueJs'},
+					{text: 'Xây  dựng một ứng dụng calculator'}
+				]
+			}
+		})
+		app4.todos.push({text: 'Nghỉ ngơi'})
+
+		var app5 = new Vue({
+		  el: '#app-5',
+		  data: {
+		    message: 'qua lại khách chờ sông lặng sóng'
+		  },
+		  methods: {
+		    reverseMessage: function () {
+		      this.message = this.message.split(' ').reverse().join(' ')
+		    }
+		  }
+		})
+
+		Vue.component('todo-item', {
+		  props: ['todo'],
+		  template: '<li>{{ todo.text }}</li>'
+		})
+
+		var app7 = new Vue({
+		  el: '#app-7',
+		  data: {
+		    groceryList: [
+		      { id: 0, text: 'Cà pháo' },
+		      { id: 1, text: 'Mắm tôm' },
+		      { id: 2, text: 'Miễn ăn được là được' }
+		    ]
+		  }
+		})
+
+		var obj = {
+		  foo: 'bar'
+		}
+
+		// Object.freeze(obj)
+
+		new Vue({
+		  el: '#app',
+		  data: obj
+		})
+	</script>
+</html>
+

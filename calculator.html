@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Hello Vue</title>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="calculator.js"></script>
+	<link rel="stylesheet" type="text/css" href="calculator.css">
+	<style type="text/css"></style>
+</head>
+<body>
+	<div id="app">
+		<table class="content-table">
+			<tr>
+				<td class="answer" colspan="4">{{ answer }}</td>
+			</tr>
+			<tr class="display-td">
+				<td class="display" colspan="4">{{logList + current}}</td>
+			</tr>
+			<!-- <tr>
+				<td @click="clear" class="operator">C</td>
+				<td @click="sign" class="operator">+/-</td>
+				<td @click="percent" class="operator">%</td>
+			</tr> -->
+			<tr>
+				<td @click="append('7')" class="number">7</td>
+				<td @click="append('8')" class="number">8</td>
+				<td @click="append('9')" class="number">9</td>
+				<td @click="minus" class="operator">/</td>
+			</tr>
+			<tr>
+				<td @click="append('4')" class="number">4</td>
+				<td @click="append('5')" class="number">5</td>
+				<td @click="append('6')" class="number">6</td>
+				<td @click="multiple" class="operator">x</td>
+			</tr>
+
+			<tr>
+				<td @click="append('1')" class="number">1</td>
+				<td @click="append('2')" class="number">2</td>
+				<td @click="append('3')" class="number">3</td>
+				<td @click="equal" class="operator">-</td>
+			</tr>
+			<tr>
+				<td @click="" class="off">OFF</td>
+				<td @click="append('0')" class="number">0</td>
+				<td @click="dot" class="number">=</td>
+				<td @click="plus" class="operator">+</td>
+			</tr>
+		</table>
+		
+	</div>
+	<script >
+		new Vue({
+			el: '#app',
+			data: {
+				logList: "",
+				current: "",
+				answer: "",
+			}
+		})
+	</script>
+	
+</body>
