@@ -16,7 +16,7 @@
 				<td class="answer" colspan="4">{{ answer }}</td>
 			</tr>
 			<tr class="display-td">
-				<td class="display" colspan="4">{{logList + current}}</td>
+				<td class="display" colspan="4">{{logList}}</td>
 			</tr>
 			<!-- <tr>
 				<td @click="clear" class="operator">C</td>
@@ -33,7 +33,7 @@
 				<td @click="append('4')" class="number">4</td>
 				<td @click="append('5')" class="number">5</td>
 				<td @click="append('6')" class="number">6</td>
-				<td @click="multiple" class="operator">x</td>
+				<td @click="multiple" class="operator">*</td>
 			</tr>
 
 			<tr>
@@ -45,21 +45,27 @@
 			<tr>
 				<td @click="" class="off">OFF</td>
 				<td @click="append('0')" class="number">0</td>
-				<td @click="dot" class="number">=</td>
+				<td @click="equal" class="number">=</td>
 				<td @click="plus" class="operator">+</td>
 			</tr>
 		</table>
 		
 	</div>
 	<script >
-		new Vue({
-			el: '#app',
-			data: {
-				logList: "",
-				current: "",
-				answer: "",
+	var app =	new Vue({
+		el: '#app',	
+		data: {
+			logList: "",
+			current: "",
+			answer: "",
+		},
+		methods: {
+			append: function(number){
+				this.number = `${this.current}${number}`;
+				this.logList += this.number;
 			}
-		})
+		}
+	})
 	</script>
 	
 </body>
